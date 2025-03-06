@@ -1,0 +1,69 @@
+---
+title: "Overview of stores"
+layout: base.njk
+---
+
+{% set columns = [
+    {
+      key: 'name',
+      label: '🏪 Name',
+      show: false
+    },
+    {
+      key: 'location',
+      label: '📍 Adresse'
+    },
+    {
+      key: 'open_hours',
+      label: '🕤 Öffnungszeiten'
+    },
+    {
+      key: 'category',
+      label: '🏷️ Kategorie'
+    }
+  ]
+%}
+<div class="container">
+    <div class="container my-5">
+      <h1 class="title">bad-belzig<span>.app</span></h1>
+      <p class="small center"> (experimental) </p>
+      <p class="center"><span id="all_matches">{{ get_stores | length }} von</span> {{ get_stores | length }} Geschäften angezeigt </p>
+    </div>
+    {# <form> #}
+        <div class="mb-3 " >
+          <input type="text" class="form-control " id="search" aria-describedby="emailHelp" aria-role="input" placeholder="Suche nach Geschäften" onkeyup="search()">
+          <div id="no-result" class="form-text search__no-result hidden">Eventuell ist das Geschäft <span class="search__value"></span> noch nicht gelistet!</div>
+        </div>
+      {# </form> #}
+</div>
+
+{# <input type="text" id="search" placeholder="Suche nach Geschäften" onkeyup="search()"> #}
+<ul class="items">
+    <tbody>
+        <tr>
+            <td>
+                {% for item in get_stores %}
+                <li class="item" data-item="item_{{loop.index}}" data-name="{{item.name}}" data-location="{{item.location}}" data-open_hours="{{item.open_hours}}" data-category="{{item.category}}">
+                    {% if item.name %}
+                            <h2>🏪 {{item.name  }}</h2>
+                        {% endif %}
+                        <table class="item">
+                            {% for column in columns %}
+                            {% if item[column.key] %}
+                            {# data- are search values #}
+                            <tr>
+                                <td class="highlight">{{column.label}}</td>
+                                <td>{{item[column.key]}}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </table>
+                    </li>
+                    {% endfor %}
+                </td>
+            </tr>
+        </tbody>
+        
+    </ul>
+{# {{ get_stores | dump }} #}
+
