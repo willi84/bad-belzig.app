@@ -18,25 +18,36 @@ module.exports = async function () {
     const api_url = `${base_url}&gid=${id}`;
     const data = await getData(base_url);
     const data_api = await getData(api_url);
+    // console.log(data_api.table.rows.length);
+    // console.log(data_api.table.rows);
+    // console.log(data_api.table.cols.length);
+
     for (let i = 0; i < data_api.table.rows.length; i++) {
         const key = data_api.table.rows[i].c[0].v;
         if(key.toLowerCase() !== 'table_name'){
             api_names[key.toLowerCase()] = data_api.table.rows[i].c[1].v;
         }
     }
+    console.log(api_names);
     
     const keys = [];
     for (let i = 0; i < data.table.rows[0].c.length; i++) {
-        const key = data.table.rows[0].c[i].v;
+        const key = data.table.cols[i].label;
         keys.push(key.toLowerCase());
     }
     // Daten umwandeln
     const items = data.table.rows.map(row => {
         const item = {};
         for (let i = 0; i < row.c.length; i++) {
-            const value = row.c[i].v || '';
+            const cell = row.c[i];
+            const k = keys[i];
+            // if(!cell){
+            //     console.log(cell);
+            // }
+            const value = cell ? cell.v  ? cell.v : '' : '';
             const old_key = keys[i].toLowerCase();
-            if(old_key?.toLowerCase() !== value.toLowerCase()){
+            const v = typeof value === 'string' ? value.trim() : `${value}`;
+            if(old_key?.toLowerCase() !==  v.toLowerCase()){
 
                 // translate keys to tab 2
                 const key = api_names[old_key] ? api_names[old_key] : old_key;
