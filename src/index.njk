@@ -3,26 +3,6 @@ title: "Overview of stores"
 layout: base.njk
 ---
 
-{% set columns = [
-    {
-      key: 'name',
-      label: '🏪 Name',
-      show: false
-    },
-    {
-      key: 'location',
-      label: '📍 Adresse'
-    },
-    {
-      key: 'open_hours',
-      label: '🕤 Öffnungszeiten'
-    },
-    {
-      key: 'category',
-      label: '🏷️ Kategorie'
-    }
-  ]
-%}
 <div class="container">
     <div class="container my-5">
       <h1 class="title">bad-belzig<span>.app</span></h1>
@@ -67,6 +47,9 @@ layout: base.njk
                           {% endif %}
                         {% endfor %}
                       </table>
+                      {% set index = loop.index + 1 %}
+                      {% set edit_url = get_stores.source.data + "&range=" + index + ":" +  index %}
+                     <div class="text-right"><a href="{{edit_url}}" target="_blank">✍️</a></div>
                     </li>
                     {% endfor %}
                 </td>

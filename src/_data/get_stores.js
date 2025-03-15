@@ -14,10 +14,13 @@ const getData = async (url) => {
 
 module.exports = async function () {
     const id = GID_TAB_2;
-    const base_url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+    const base_url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}`;
+    const base_data_url = `${base_url}/gviz/tq?tqx=out:json`;
+    const data_id = '1062550936';
+    const base_edit_url = `${base_url}/edit?gid=${data_id}#gid=${data_id}`;
     const api_names = {}
-    const api_url = `${base_url}&gid=${id}`;
-    const data = await getData(base_url);
+    const api_url = `${base_data_url}&gid=${id}`;
+    const data = await getData(base_data_url);
     const data_api = await getData(api_url);
     console.log(api_url)
     // console.log(data_api.table.rows.length);
@@ -99,6 +102,7 @@ module.exports = async function () {
         // console.log(item); // debug
     }).filter(item => item.name !== undefined); // filter out empty rows
     return {
+        source: { data: base_edit_url},
         items,
         labels
     }
