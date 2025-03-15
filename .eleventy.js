@@ -29,6 +29,11 @@ eleventyConfig.addFilter("parseDate", (dateString) => {
     day: "numeric",
   });
 });
+eleventyConfig.addFilter("maps", function(value) {
+  const str = value.toString();
+  // 52123445 => 52.123445
+  return str.indexOf('.') !== -1 ? str :  str.slice(0, 2) + "." + str.slice(2);
+});
 
 eleventyConfig.addFilter("svg", function(filePath) {
   const fullPath = path.join(__dirname, filePath); // Ensure correct file path
