@@ -25,7 +25,7 @@ layout: base.njk
                 {% for item in get_stores.items %}
                   <li class="item" data-item="item_{{loop.index}}" data-name="{{item.name}}" data-location="{{item.location}}" data-open_hours="{{item.open_hours}}" data-category="{{item.category}}">
                       {% if item.name %}
-                          <h2>🏪 {{item.name  }}</h2>
+                          <h2>Name: 🏪 {{item.name  }}</h2>
                       {% endif %}
                       <table class="item">
                         {% for column in get_stores.labels %}
@@ -40,8 +40,6 @@ layout: base.njk
                                 {% else %}
                                   {{item[column.key]}}
                                 {% endif %}
-                                
-                                
                               </td>
                             </tr>
                           {% endif %}
